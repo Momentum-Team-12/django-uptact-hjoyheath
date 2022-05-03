@@ -9,6 +9,7 @@ class Contact(models.Model):
         message="Phone number must be entered in the format: '+9999999999'.")
 
     name = models.CharField(max_length=255)
+    birthday = models.DateField(null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     phone_number = models.CharField(max_length=11,
                                     validators=[phone_regex],
@@ -19,3 +20,11 @@ class Contact(models.Model):
     city = models.CharField(max_length=255, null=True, blank=True)
     state = USStateField(null=True, blank=True)
     zip_code = USZipCodeField(null=True, blank=True)
+
+# https://zerotobyte.com/complete-guide-to-django-foreignkey/
+
+
+class Note(models.Model):
+    text = models.TextField(max_length=255, null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+    contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
